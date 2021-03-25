@@ -1,5 +1,6 @@
 import 'package:auto_fillapp/branch_model.dart';
 import 'package:auto_fillapp/db_service.dart';
+import 'package:auto_fillapp/update_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,17 @@ class HomePage extends StatelessWidget {
                         return ListView.builder(
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
+
+                            var id = snapshot.data.docs[index].id;
+                            print(id);
                             BranchModel branch =
                                 BranchModel.branchFromFireStore(
                                     snapshot.data.docs[index].data());
 
                             return ListTile(
+                              onTap: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateScreen(branchModel: branch,docId: id,)));
+                              },
                               title: Text(branch.name),
                               leading: Text(branch.id.toString()),
                               trailing: Text(branch.branchAddress),
