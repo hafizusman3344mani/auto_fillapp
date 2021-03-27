@@ -6,7 +6,7 @@ class UpdateScreen extends StatefulWidget {
   final BranchModel branchModel;
   final docId;
 
-  const UpdateScreen({this.branchModel,this.docId});
+  const UpdateScreen({this.branchModel, this.docId});
 
   @override
   _UpdateScreenState createState() => _UpdateScreenState();
@@ -49,7 +49,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                 ref.doc(widget.docId).update({'name':_nameController.text,'branchAddress':_addressController.text});
+                  ref.doc(widget.docId).update({
+                    'name': _nameController.text,
+                    'branchAddress': _addressController.text
+                  }).then((value) => Navigator.of(context).pop());
                 },
                 child: Text('Update'),
               ),

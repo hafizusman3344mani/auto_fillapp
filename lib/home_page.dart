@@ -21,15 +21,14 @@ class HomePage extends StatelessWidget {
                       stream: ref.orderBy('id').snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
                         return ListView.builder(
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
-
                             var id = snapshot.data.docs[index].id;
                             print(id);
                             BranchModel branch =
@@ -37,12 +36,27 @@ class HomePage extends StatelessWidget {
                                     snapshot.data.docs[index].data());
 
                             return ListTile(
-                              onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateScreen(branchModel: branch,docId: id,)));
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => UpdateScreen(
+                                          branchModel: branch,
+                                          docId: id,
+                                        )));
                               },
                               title: Text(branch.name),
                               leading: Text(branch.id.toString()),
-                              trailing: Text(branch.branchAddress),
+                              subtitle: Text(branch.branchAddress),
+                              trailing: ElevatedButton(
+                                child: Text('Delete'),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red, // background
+                                  onPrimary: Colors.white, // foreground
+                                ),
+                                onPressed: () {
+                                  ref.doc(id).delete().then((value) => print(
+                                      '${branch.name} deleted successfully!'));
+                                },
+                              ),
                             );
                           },
                         );

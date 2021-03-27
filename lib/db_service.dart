@@ -1,4 +1,3 @@
-
 import 'package:auto_fillapp/branch_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
